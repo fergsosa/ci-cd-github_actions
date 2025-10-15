@@ -33,9 +33,9 @@ jobs:
   # =======================
   #  1: ⚓ BASIC
   # =======================
-  # call-basic:
-  #   name: ⚓ Basic Job
-  #   uses: ./.github/workflows/01-basic.yml
+  call-basic:
+    name: ⚓ Basic Job
+    uses: ./.github/workflows/01-basic.yml
 
   # =======================
   #  2: call VARIABLES

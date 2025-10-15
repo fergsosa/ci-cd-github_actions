@@ -1,0 +1,71 @@
+#! 🌟 Workflow Básico - Introducción a GitHub Actions
+#
+# PROPÓSITO:
+#   Introducción a conceptos fundamentales de GitHub Actions
+#   - Jobs y steps básicos
+#   - Comandos shell simples
+#   - Variables de sistema predeterminadas
+#
+# TRIGGER:
+#   Se ejecuta en cada push a la rama main
+#
+# NIVEL: 🟢 Básico
+
+name: 01 - Basic Hello World
+
+#! 📌 Eventos que activan este workflow
+on: workflow_call
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch: # Permite ejecución manual desde la UI
+
+#! 🔧 Trabajos a ejecutar
+jobs:
+  hello-world:
+    name: Hello World Job
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Saludo básico
+      - name: 👋 Saludar
+        run: echo "¡Hola! Bienvenido a GitHub Actions"
+
+      # Paso 2: Mostrar fecha y hora
+      - name: 📅 Mostrar fecha y hora actual
+        run: date
+
+      # Paso 3: Información del sistema
+      - name: 💻 Información del sistema
+        run: |
+          echo "Sistema operativo: $(uname -s)"
+          echo "Usuario actual: $(whoami)"
+          echo "Directorio actual: $(pwd)"
+
+      # Paso 4: Variables de GitHub Actions
+      - name: 🔍 Variables de GitHub Actions
+        run: |
+          echo "Repositorio: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Evento: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "SHA: ${{ github.sha }}"
+
+      # Paso 5: Listar contenido del workspace
+      - name: 📂 Contenido del directorio
+        run: ls -la
+
+      # Paso 6: Variables de entorno del sistema
+      - name: 🌍 Variables de entorno
+        run: |
+          echo "=== Variables de entorno del runner ==="
+          echo "HOME: $HOME"
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          echo "GITHUB_WORKFLOW: $GITHUB_WORKFLOW"
+          echo "RUNNER_OS: $RUNNER_OS"
+
+      - name: ✅ Resumen | Workflow completado
+        run: |
+          echo "🎉 ¡Primer workflow ejecutado exitosamente!"
+          echo "📚 Siguiente paso: Explorar el workflow 02-variables-and-secrets.yml"
