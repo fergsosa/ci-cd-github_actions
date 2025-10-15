@@ -1,0 +1,127 @@
+name: 06 - Advanced Conditionals Workflow
+
+# 📌 EVENTOS QUE DISPARAN EL WORKFLOW
+on:
+  workflow_call
+  # push:
+  #   branches: ["main"]      # Se ejecuta cuando se hace push en la rama principal
+  # workflow_dispatch          # Permite ejecución manual desde la interfaz de GitHub
+
+# 🧠 OBJETIVO:
+#   - Demostrar condicionales avanzadas con 'if'
+#   - Usar expresiones contextuales de GitHub
+#   - Aplicar control de flujo dinámico
+#   - Mostrar ejemplos de buenas prácticas
+
+# 🧱 DEFINICIÓN DE JOBS
+jobs:
+  # =======================
+  # 🔍 JOB 1: VALIDAR ENTORNO
+  # =======================
+  validate:
+    name: 🔍 Validar entorno
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧾 Verificar rama
+        run: |
+          # Pseudocódigo educativo:
+          # Verificar en qué rama se está ejecutando el workflow
+          echo "Rama actual: ${{ github.ref_name }}"
+          echo "Evento disparador: ${{ github.event_name }}"
+
+      - name: ✅ Condición - Solo continuar en main
+        if: ${{ github.ref_name == 'main' }}
+        run: |
+          # Pseudocódigo educativo:
+          # Ejecutar acciones solo si la rama actual es 'main'
+          echo "✔️ Rama válida: main"
+
+      - name: ⚠️ Condición - Ejecutar si no es main
+        if: ${{ github.ref_name != 'main' }}
+        run: |
+          # Pseudocódigo educativo:
+          # Mostrar advertencia si el flujo no está en la rama principal
+          echo "⚠️ Este flujo no se ejecuta en main"
+          echo "🔸 Rama actual: ${{ github.ref_name }}"
+
+      # =======================
+      # ⚙️ JOB 2: BUILD CONDICIONAL
+      # =======================
+      # build:
+      #   name: ⚙️ Build Condicional
+      #   runs-on: ubuntu-latest
+      #   needs: validate
+
+      #   steps:
+      - name: 🧩 Evaluar cambios en código fuente
+        run: |
+          # Pseudocódigo educativo:
+          # Simular detección de cambios específicos en el código
+          echo "🕵️ Detectando cambios relevantes..."
+          echo "✅ Cambios detectados en la carpeta src/"
+
+      - name: 🏗️ Ejecutar build solo si hay cambios
+        if: ${{ always() && github.ref_name == 'main' }}
+        run: |
+          # Pseudocódigo educativo:
+          # Solo ejecuta el build si estamos en main y hubo cambios
+          echo "🏗️ Ejecutando build..."
+          echo "✅ Build finalizado correctamente"
+
+      # =======================
+      # 🧪 JOB 3: TEST CONDICIONAL
+      # =======================
+      # test:
+      #   name: 🧪 Test Condicional
+      #   runs-on: ubuntu-latest
+      #   needs: build
+
+      #   steps:
+      - name: 🔄 Ejecutar pruebas
+        if: ${{ success() }}
+        run: |
+          # Pseudocódigo educativo:
+          # Ejecutar pruebas solo si el build fue exitoso
+          echo "🧪 Ejecutando pruebas..."
+          echo "✅ Todas las pruebas pasaron correctamente"
+
+      - name: 🚫 Saltar pruebas en caso de fallo
+        if: ${{ failure() }}
+        run: |
+          # Pseudocódigo educativo:
+          # Si el job anterior falló, mostrar mensaje alternativo
+          echo "⚠️ Saltando pruebas porque el build falló"
+
+      # =======================
+      # 🚀 JOB 4: DEPLOY CON CONDICIONAL
+      # =======================
+      # deploy:
+      #   name: 🚀 Deploy Condicional
+      #   runs-on: ubuntu-latest
+      #   needs: [test]
+      #   if: ${{ success() && github.ref_name == 'main' }}
+
+      #   steps:
+      - name: 📦 Desplegar aplicación
+        run: |
+          # Pseudocódigo educativo:
+          # Desplegar solo si todos los pasos anteriores fueron exitosos
+          echo "🚀 Desplegando aplicación en producción..."
+          echo "🌎 Región: us-east-1"
+          echo "✅ Despliegue completado correctamente"
+
+      # =======================
+      # 📊 JOB 5: RESUMEN FINAL
+      # =======================
+      - name: ✅ Resumen Final | Mostrar resumen final
+        run: |
+          # Pseudocódigo educativo:
+          # Mostrar estado consolidado de todos los jobs
+          echo "=== RESULTADOS DEL WORKFLOW ==="
+          echo "Validación: ✅ completada"
+          echo "Build: ✅ exitoso"
+          echo "Tests: ✅ aprobados"
+          echo "Deploy: ✅ ejecutado"
+          echo "================================"
+          echo "🎯 Workflow condicional finalizado correctamente 🚀"

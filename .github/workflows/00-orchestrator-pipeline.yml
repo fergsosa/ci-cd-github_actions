@@ -88,10 +88,10 @@ jobs:
   # =======================
   #  1: ❓ CONDITIONALS
   # =======================
-  # call-conditionals:
-  #   name: ❓ conditionals Job
-  #   needs: call-deploy
-  #   uses: ./.github/workflows/06-conditionals.yml
+  call-conditionals:
+    name: ❓ conditionals Job
+    needs: call-deploy
+    uses: ./.github/workflows/06-conditionals.yml
 
   # =======================
   #  4: 📊 REPORT / SUMMARY
@@ -99,13 +99,14 @@ jobs:
   summary:
     name: 📊 Resumen del Pipeline
     runs-on: ubuntu-latest
-    needs: [
+    needs:
+      [
         call-basic,
         call-variable,
         call-build,
         call-test,
         call-deploy,
-        # call-conditionals,
+        call-conditionals,
       ]
 
     steps:
