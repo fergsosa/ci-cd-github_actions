@@ -48,10 +48,10 @@ jobs:
   # =======================
   #  3: 🛠️ BUILD
   # =======================
-  # call-build:
-  #   name: 🛠️ Build Job
-  #   needs: call-variable
-  #   uses: ./.github/workflows/03-reusable-build.yml
+  call-build:
+    name: 🛠️ Build Job
+    needs: call-variable
+    uses: ./.github/workflows/03-reusable-build.yml
   # with:
   #   node-version: ${ { env.NODE_VERSION }}
   #   build-command: "npm run build"
@@ -60,10 +60,10 @@ jobs:
   # =======================
   #  4: 🧪 TEST
   # =======================
-  # call-test:
-  #   name: 🧪 Test Job
-  #   needs: call-build
-  #   uses: ./.github/workflows/04-reusable-test.yml
+  call-test:
+    name: 🧪 Test Job
+    needs: call-build
+    uses: ./.github/workflows/04-reusable-test.yml
   #   with:
   #     node-version: ${ { env.NODE_VERSION }}
   #     test-command: "npm test"
@@ -72,12 +72,12 @@ jobs:
   # =======================
   #  5: 🚀 DEPLOY
   # =======================
-  # call-deploy:
-  #   name: 🚀 Deploy Job
-  #   needs: call-test
-  #   # Solo despliega en main
-  #   if: ${{ github.ref_name == 'main' }}
-  #   uses: ./.github/workflows/05-reusable-deploy.yml
+  call-deploy:
+    name: 🚀 Deploy Job
+    needs: call-test
+    # Solo despliega en main
+    if: ${{ github.ref_name == 'main' }}
+    uses: ./.github/workflows/05-reusable-deploy.yml
   #   with:
   #     environment: ${ { env.DEPLOY_ENV }}
   #     region: ${ { env.REGION }}
@@ -102,9 +102,9 @@ jobs:
     needs: [
         call-basic,
         call-variable,
-        # call-build,
-        # call-test,
-        # call-deploy,
+        call-build,
+        call-test,
+        call-deploy,
         # call-conditionals,
       ]
 

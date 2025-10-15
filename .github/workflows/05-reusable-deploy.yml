@@ -1,0 +1,79 @@
+name: 05 - Reusable Deploy Workflow
+
+on: workflow_call
+# on:
+#  workflow_call:
+#    inputs:
+#      environment:
+#        description: "Entorno de despliegue (staging, production, etc.)"
+#        required: false
+#        default: "staging"
+#      region:
+#        description: "Región de despliegue (us-east-1, eu-west-1, etc.)"
+#        required: false
+#        default: "us-east-1"
+#      deploy-command:
+#        description: "Comando de despliegue personalizado"
+#        required: false
+#        default: "npm run deploy"
+#    secrets:
+#      DEPLOY_TOKEN:
+#        required: true
+#        description: "Token o credencial requerida para el despliegue"
+#    outputs:
+#      deploy-status:
+#        description: "Resultado del proceso de despliegue"
+#        value: ${ { jobs.deploy.outputs.status }}
+
+jobs:
+  deploy:
+    name: 🚀 Deploy Job
+    runs-on: ubuntu-latest
+
+    outputs:
+      status: ${ { steps.final-status.outputs.state }}
+
+    steps:
+      - name: 📥 Checkout del repositorio
+        run: |
+          # Clonar el repositorio antes de iniciar el proceso de despliegue
+
+      - name: ⚙️ Configurar entorno
+        run: |
+          # Configurar variables y entorno necesarios para el despliegue
+          # "inputs":
+            # "environment: ${ { inputs.environment }}"
+            # "region: ${ { inputs.region }}"
+          # "env":
+            # "DEPLOY_TOKEN: ${ { secrets.DEPLOY_TOKEN }}"
+
+      - name: 🧩 Validar entorno
+        run: |
+          # Verificar que las credenciales y entorno sean válidos
+          # "run": "echo 'Validando entorno ${ { inputs.environment }}...'"
+
+      - name: 🚀 Ejecutar despliegue
+        run: |
+          # Ejecutar el comando de despliegue configurado por input
+          # "run": "${ { inputs.deploy-command }}"
+
+      - name: 📦 Subir logs del despliegue
+        run: |
+          # Subir logs o resultados del despliegue como artefacto
+          # "uses": "actions/upload-artifact@v4"
+          # "with":
+            # "name: deploy-logs"
+            # "path: logs/"
+
+      - name: ✅ Exportar estado final
+        run: |
+          # Simular resultado del despliegue y exportarlo como output
+          # "id": "final-status"
+          # "run": "echo state=✅ Despliegue completado correctamente >> $GITHUB_OUTPUT"
+
+      - name: ✅ Resumen Final | Finalización
+        run: |
+          # echo "🎯 Despliegue finalizado correctamente"
+          # echo "🌍 Entorno: ${ { inputs.environment }}"
+          # echo "📦 Región: ${ { inputs.region }}"
+          # echo "📘 Siguiente paso: explorar 06-conditionals.yml"

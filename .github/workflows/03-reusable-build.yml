@@ -1,0 +1,70 @@
+name: 03 - Reusable Build Workflow
+
+on: workflow_call
+# on:
+#  workflow_call:
+#    inputs:
+#      node-version:
+#        description: "Versión de Node.js a usar"
+#        required: false
+#        default: "20"
+#      build-command:
+#        description: "Comando de build del proyecto"
+#        required: false
+#        default: "npm run build"
+#    secrets:
+#      NPM_TOKEN:
+#        required: false
+#        description: "Token opcional para npm"
+#    outputs:
+#      build-path:
+#        description: "Directorio del build"
+#        value: ${ { jobs.build.outputs.build-path }}
+
+jobs:
+  build:
+    name: 🔧 Build Job
+    runs-on: ubuntu-latest
+    outputs:
+      build-path: ${ { steps.output-path.outputs.path }}
+
+    steps:
+      - name: 📥 Checkout del repositorio
+        run: |
+          # Clonar el repositorio al runner para trabajar con el código
+
+      - name: 🧩 Configurar Node.js
+        run: |
+          # Instalar Node.js según la versión del input
+          # Habilitar cache de npm para acelerar instalación de dependencias
+          # "inputs":
+            # "node-version: ${ { inputs.node-version }}"
+            # "cache: npm"
+
+      - name: 📦 Instalar dependencias
+        run: |
+          # Instalar dependencias del proyecto con npm
+          # "run": "npm ci"
+
+      - name: 🏗️ Ejecutar build
+        run: |
+          # Ejecutar el comando de build recibido como input
+          # "run": "${ { inputs.build-command }}"
+
+      - name: 💾 Guardar artefacto del build
+        run: |
+          # Guardar la carpeta 'dist/' como artefacto para otros workflows
+          # "artifact-name": "build-output"
+          # "artifact-path": "dist/"
+
+      - name: 🔄 Exportar ruta del build
+        run: |
+          # Definir output del job para que otros workflows puedan usarlo
+          # "id": "output-path"
+          # "run": "echo path=dist >> $GITHUB_OUTPUT"
+
+      - name: ✅ Resumen | Workflow completado
+        run: |
+          echo "🎯 Build finalizado correctamente"
+          echo "📁 Ruta del build exportada: dist/"
+          echo "📘 Siguiente paso: explorar 04-reusable-test.yml"

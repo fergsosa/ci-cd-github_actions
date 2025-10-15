@@ -1,0 +1,75 @@
+name: 04 - Reusable Test Workflow
+
+on: workflow_call
+# on:
+#  workflow_call:
+#    inputs:
+#      node-version:
+#        description: "Versión de Node.js a utilizar"
+#        required: false
+#        default: "20"
+#      test-command:
+#        description: "Comando de testing a ejecutar"
+#        required: false
+#        default: "npm test"
+#    secrets:
+#      TEST_API_KEY:
+#        required: false
+#        description: "API key para pruebas (opcional)"
+#    outputs:
+#      test-result:
+#        description: "Resultado general de las pruebas"
+#        value: ${ { jobs.test.outputs.result }}
+
+jobs:
+  test:
+    name: 🔍 Test Job
+    runs-on: ubuntu-latest
+    outputs:
+      result: ${ { steps.evaluate.outputs.summary }}
+
+    steps:
+      - name: 📥 Checkout del código
+        run: |
+          # Clonar el repositorio actual para ejecutar las pruebas
+
+      - name: ⚙️ Configurar Node.js
+        run: |
+          # Configurar entorno Node.js con la versión indicada en los inputs
+          # Habilitar cache de npm para optimizar tiempos de instalación
+          # "inputs":
+            # "node-version: ${ { inputs.node-version }}"
+            # "cache: npm"
+
+      - name: 📦 Instalar dependencias
+        run: |
+          # Instalar todas las dependencias del proyecto
+          # "run": "npm ci"
+
+      - name: 🧪 Ejecutar pruebas
+        run: |
+          # Ejecutar el comando de test definido por input
+          # "env":
+            # "TEST_API_KEY: ${ { secrets.TEST_API_KEY }}"
+          # "run": "${ { inputs.test-command }}"
+
+      - name: 📊 Evaluar resultado
+        run: |
+          # Simular la evaluación de los resultados del test
+          # Exportar resumen al contexto de outputs
+          # "id": "evaluate"
+          # "run": "echo summary=✅ Todas las pruebas pasaron correctamente >> $GITHUB_OUTPUT"
+
+      - name: 📤 Subir reporte de test
+        run: |
+          # Si existen reportes de pruebas, subirlos como artefacto
+          # "if": "always()"
+          # "uses": "actions/upload-artifact@v4"
+          # "with":
+            # "name: test-report"
+            # "path: reports/"
+
+      - name: ✅ Resumen Final | Workflow completado
+        run: |
+          echo "🎯 Testing finalizado correctamente"
+          echo "📘 Siguiente paso: explorar 05-reusable-deploy.yml"
