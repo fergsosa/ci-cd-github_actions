@@ -40,10 +40,10 @@ jobs:
   # =======================
   #  2: call VARIABLES
   # =======================
-  # call-variable:
-  #   needs: call-basic
-  #   name: 📏 Variables Job
-  #   uses: ./.github/workflows/02-variables-and-secrets.yml
+  call-variable:
+    needs: call-basic
+    name: 📏 Variables Job
+    uses: ./.github/workflows/02-variables-and-secrets.yml
 
   # =======================
   #  3: 🛠️ BUILD
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [
         call-basic,
-        # call-variable,
+        call-variable,
         # call-build,
         # call-test,
         # call-deploy,
