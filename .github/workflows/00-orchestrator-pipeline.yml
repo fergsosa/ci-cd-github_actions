@@ -1,0 +1,129 @@
+#! 🔁 Workflow Avanzado - Orquestador CI/CD
+#
+# PROPÓSITO:
+#   Demostrar cómo construir una pipeline CI/CD completa:
+#   - Reutilizando workflows modulares (build, test, deploy)
+#   - Controlando dependencias con 'needs'
+#   - Encadenando inputs y outputs
+#   - Aplicando buenas prácticas de orquestación
+#
+# TRIGGER:
+#   Se ejecuta en push a main y también manualmente (workflow_dispatch)
+#
+# NIVEL: 🔴 Avanzado
+# --------------------------------------------------------------
+
+name: 00 - Orchestrator CI/CD Pipeline
+
+#! 📌 Eventos que disparan la pipeline
+on:
+  push:
+    branches: ["main"]
+    # branches: ["dev"]
+  workflow_dispatch:
+
+#! ⚙️ Variables globales del pipeline
+env:
+  NODE_VERSION: 20
+  DEPLOY_ENV: staging
+  REGION: us-east-1
+
+#! 🧱 Definición de los jobs del pipeline
+jobs:
+  # =======================
+  #  1: ⚓ BASIC
+  # =======================
+  # call-basic:
+  #   name: ⚓ Basic Job
+  #   uses: ./.github/workflows/01-basic.yml
+
+  # =======================
+  #  2: call VARIABLES
+  # =======================
+  # call-variable:
+  #   needs: call-basic
+  #   name: 📏 Variables Job
+  #   uses: ./.github/workflows/02-variables-and-secrets.yml
+
+  # =======================
+  #  3: 🛠️ BUILD
+  # =======================
+  # call-build:
+  #   name: 🛠️ Build Job
+  #   needs: call-variable
+  #   uses: ./.github/workflows/03-reusable-build.yml
+  # with:
+  #   node-version: ${ { env.NODE_VERSION }}
+  #   build-command: "npm run build"
+  # secrets: inherit # Hereda secrets del repositorio
+
+  # =======================
+  #  4: 🧪 TEST
+  # =======================
+  # call-test:
+  #   name: 🧪 Test Job
+  #   needs: call-build
+  #   uses: ./.github/workflows/04-reusable-test.yml
+  #   with:
+  #     node-version: ${ { env.NODE_VERSION }}
+  #     test-command: "npm test"
+  #   secrets: inherit
+
+  # =======================
+  #  5: 🚀 DEPLOY
+  # =======================
+  # call-deploy:
+  #   name: 🚀 Deploy Job
+  #   needs: call-test
+  #   # Solo despliega en main
+  #   if: ${{ github.ref_name == 'main' }}
+  #   uses: ./.github/workflows/05-reusable-deploy.yml
+  #   with:
+  #     environment: ${ { env.DEPLOY_ENV }}
+  #     region: ${ { env.REGION }}
+  #     deploy-command: "echo 'Simulando despliegue en staging...'"
+  #   secrets:
+  #     DEPLOY_TOKEN: ${ { secrets.DEPLOY_TOKEN }}
+
+  # =======================
+  #  1: ❓ CONDITIONALS
+  # =======================
+  # call-conditionals:
+  #   name: ❓ conditionals Job
+  #   needs: call-deploy
+  #   uses: ./.github/workflows/06-conditionals.yml
+
+  # =======================
+  #  4: 📊 REPORT / SUMMARY
+  # =======================
+  summary:
+    name: 📊 Resumen del Pipeline
+    runs-on: ubuntu-latest
+    needs: [
+        call-basic,
+        # call-variable,
+        # call-build,
+        # call-test,
+        # call-deploy,
+        # call-conditionals,
+      ]
+
+    steps:
+      - name: 🧩 Recopilar resultados
+        run: |
+          echo "🧱 Build completado: ✅"
+          echo "🧪 Tests ejecutados: ✅"
+          # echo "🚀 Despliegue en: ${{ env.DEPLOY_ENV }}"
+          # echo "📦 Región: ${{ env.REGION }}"
+
+      - name: 📝 Generar reporte final
+        run: |
+          echo "=== Pipeline CI/CD completada correctamente ==="
+          echo "Repositorio: ${{ github.repository }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Fecha: $(date)"
+
+      - name: 🎉 Finalización
+        run: echo "🎯 CI/CD finalizada exitosamente 🚀"
